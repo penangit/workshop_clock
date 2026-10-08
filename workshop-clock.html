@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-style="mono">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Neo+ Penang · Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@200;300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Major+Mono+Display&family=DM+Serif+Display:ital@0;1&family=VT323&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   THEME TOKENS
+   ============================================================ */
+:root {
+  --font-clock: 'Geist Mono', ui-monospace, monospace;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-lcd: 'VT323', monospace;
+  --font-mono-display: 'Major Mono Display', monospace;
+  --font-serif-bold: 'DM Serif Display', Georgia, serif;
+  --transition: 800ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #0a0a0c; --bg-grad: radial-gradient(ellipse at top, #1a1a24 0%, #0a0a0c 60%);
+  --fg: #f4f4f5; --fg-dim: #a1a1aa; --fg-faint: #52525b;
+  --accent: #fafafa; --accent-glow: rgba(250,250,250,0.3);
+  --card: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.1); --card-active: rgba(255,255,255,0.08);
+  --track: rgba(255,255,255,0.15);
+  --hot: #fb7185; --cool: #60a5fa; --good: #4ade80;
+}
+[data-theme="light"] {
+  --bg: #fafaf9; --bg-grad: radial-gradient(ellipse at top, #ffffff 0%, #f4f4f0 60%);
+  --fg: #18181b; --fg-dim: #52525b; --fg-faint: #a1a1aa;
+  --accent: #18181b; --accent-glow: rgba(24,24,27,0.2);
+  --card: rgba(0,0,0,0.04); --card-border: rgba(0,0,0,0.12); --card-active: rgba(0,0,0,0.08);
+  --track: rgba(0,0,0,0.15);
+  --hot: #dc2626; --cool: #2563eb; --good: #16a34a;
+}
+[data-theme="dawn"] {
+  --bg: #2d1b3d; --bg-grad: linear-gradient(180deg, #2d1b3d 0%, #6b3754 40%, #c97064 75%, #f9a07a 100%);
+  --fg: #fef3e7; --fg-dim: #fcd5a5; --fg-faint: #b08070;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(255,255,255,0.08); --card-border: rgba(255,230,200,0.25); --card-active: rgba(255,230,200,0.15);
+  --track: rgba(255,230,200,0.25);
+  --hot: #f97316; --cool: #c084fc; --good: #fbbf24;
+}
+[data-theme="morning"] {
+  --bg: #fef3e2; --bg-grad: linear-gradient(180deg, #fef9ed 0%, #fde8c4 50%, #fcd197 100%);
+  --fg: #3d2817; --fg-dim: #92591d; --fg-faint: #c8945a;
+  --accent: #d97706; --accent-glow: rgba(217,119,6,0.3);
+  --card: rgba(255,255,255,0.5); --card-border: rgba(217,119,6,0.22); --card-active: rgba(255,255,255,0.7);
+  --track: rgba(217,119,6,0.25);
+  --hot: #ea580c; --cool: #0891b2; --good: #16a34a;
+}
+[data-theme="noon"] {
+  --bg: #e0f2fe; --bg-grad: radial-gradient(ellipse at top, #ffffff 0%, #e0f2fe 60%, #bae6fd 100%);
+  --fg: #0c4a6e; --fg-dim: #0369a1; --fg-faint: #7dd3fc;
+  --accent: #0284c7; --accent-glow: rgba(2,132,199,0.3);
+  --card: rgba(255,255,255,0.6); --card-border: rgba(2,132,199,0.18); --card-active: rgba(255,255,255,0.85);
+  --track: rgba(2,132,199,0.25);
+  --hot: #ef4444; --cool: #0284c7; --good: #059669;
+}
+[data-theme="sunset"] {
+  --bg: #2d0a1f; --bg-grad: linear-gradient(180deg, #4c1d3d 0%, #b91c5c 35%, #ea580c 65%, #fbbf24 100%);
+  --fg: #fef3c7; --fg-dim: #fed7aa; --fg-faint: #c2856a;
+  --accent: #fef08a; --accent-glow: rgba(254,240,138,0.4);
+  --card: rgba(255,255,255,0.1); --card-border: rgba(255,240,200,0.3); --card-active: rgba(255,255,255,0.18);
+  --track: rgba(255,240,200,0.3);
+  --hot: #fbbf24; --cool: #f9a8d4; --good: #fef08a;
+}
+[data-theme="night"] {
+  --bg: #030712; --bg-grad: radial-gradient(ellipse at bottom, #1e293b 0%, #030712 70%);
+  --fg: #e0f2fe; --fg-dim: #94a3b8; --fg-faint: #475569;
+  --accent: #93c5fd; --accent-glow: rgba(147,197,253,0.4);
+  --card: rgba(255,255,255,0.03); --card-border: rgba(147,197,253,0.15); --card-active: rgba(255,255,255,0.06);
+  --track: rgba(147,197,253,0.2);
+  --hot: #fb7185; --cool: #93c5fd; --good: #6ee7b7;
+}
+[data-theme="christmas"] {
+  --bg: #0d1f17; --bg-grad: radial-gradient(ellipse at top, #1a3329 0%, #0a1812 60%);
+  --fg: #fef3c7; --fg-dim: #d6a86e; --fg-faint: #6b4f2f;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(220,38,38,0.08); --card-border: rgba(251,191,36,0.25); --card-active: rgba(220,38,38,0.15);
+  --track: rgba(251,191,36,0.3);
+  --hot: #ef4444; --cool: #34d399; --good: #fbbf24;
+}
+[data-theme="cny"] {
+  --bg: #1a0606; --bg-grad: radial-gradient(ellipse at top, #4a0e0e 0%, #1a0606 60%);
+  --fg: #fde68a; --fg-dim: #f59e0b; --fg-faint: #92400e;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(251,191,36,0.06); --card-border: rgba(251,191,36,0.22); --card-active: rgba(251,191,36,0.12);
+  --track: rgba(251,191,36,0.3);
+  --hot: #fbbf24; --cool: #fde68a; --good: #fbbf24;
+}
+[data-theme="raya"] {
+  --bg: #042f1f; --bg-grad: radial-gradient(ellipse at top, #064e3b 0%, #022c1c 60%);
+  --fg: #fef3c7; --fg-dim: #fcd34d; --fg-faint: #78350f;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(251,191,36,0.06); --card-border: rgba(251,191,36,0.22); --card-active: rgba(251,191,36,0.12);
+  --track: rgba(251,191,36,0.3);
+  --hot: #fbbf24; --cool: #6ee7b7; --good: #fbbf24;
+}
+[data-theme="deepavali"] {
+  --bg: #1e0a2e; --bg-grad: radial-gradient(ellipse at top, #4c1d95 0%, #1e0a2e 60%);
+  --fg: #fef3c7; --fg-dim: #fbbf24; --fg-faint: #6b21a8;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(251,191,36,0.06); --card-border: rgba(251,191,36,0.25); --card-active: rgba(251,191,36,0.12);
+  --track: rgba(251,191,36,0.3);
+  --hot: #f97316; --cool: #c084fc; --good: #fbbf24;
+}
+[data-theme="merdeka"] {
+  --bg: #0c1b3a; --bg-grad: radial-gradient(ellipse at top, #1e3a8a 0%, #0c1b3a 60%);
+  --fg: #ffffff; --fg-dim: #fcd34d; --fg-faint: #64748b;
+  --accent: #fbbf24; --accent-glow: rgba(251,191,36,0.4);
+  --card: rgba(255,255,255,0.04); --card-border: rgba(251,191,36,0.25); --card-active: rgba(255,255,255,0.08);
+  --track: rgba(251,191,36,0.3);
+  --hot: #ef4444; --cool: #60a5fa; --good: #fbbf24;
+}
+[data-theme="neon"] {
+  --bg: #050505; --bg-grad: radial-gradient(ellipse at top, #1a0a2e 0%, #050505 60%);
+  --fg: #00f0ff; --fg-dim: #ff00ff; --fg-faint: #444;
+  --accent: #ff00ff; --accent-glow: rgba(255,0,255,0.5);
+  --card: rgba(0,240,255,0.04); --card-border: rgba(0,240,255,0.25); --card-active: rgba(0,240,255,0.1);
+  --track: rgba(255,0,255,0.4);
+  --hot: #ff00aa; --cool: #00f0ff; --good: #00ff88;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg-grad);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(1rem, 2vw, 2rem);
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
+  position: relative;
+  background-size: 200% 200%;
+  animation: gradientShift 30s ease infinite;
+}
+@keyframes gradientShift { 0%,100% { background-position: 50% 0%; } 50% { background-position: 50% 100%; } }
+
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.04; pointer-events: none; mix-blend-mode: overlay; z-index: 1;
+}
+body::after {
+  content: ''; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.3) 100%);
+  pointer-events: none; z-index: 1;
+}
+
+/* ============================================================
+   AUTO-HIDE FOOTER (idle mode)
+   ============================================================ */
+footer {
+  transition: opacity 800ms ease, transform 800ms ease;
+  z-index: 5;
+  position: relative;
+}
+body.idle footer {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+body.idle .settings-toggle { opacity: 0 !important; }
+
+/* When idle, give the clock more breathing room */
+body.idle main { transform: translateY(2vh); transition: transform 800ms ease; }
+main { transition: transform 800ms ease; }
+
+/* ============================================================
+   AMBIENT PARTICLES
+   ============================================================ */
+.ambient-particles { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.dust {
+  position: absolute; background: var(--fg); border-radius: 50%;
+  opacity: 0; animation: drift linear infinite;
+}
+@keyframes drift {
+  0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.2; }
+  100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 5;
+  position: relative;
+  gap: 2rem;
+}
+
+.weather { display: flex; align-items: flex-start; gap: 1.25rem; }
+.weather-icon { font-size: clamp(2.5rem,4.5vw,4rem); line-height: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25)); }
+.weather-info { display: flex; flex-direction: column; gap: 0.2rem; }
+.weather-temp { font-family: var(--font-clock); font-size: clamp(1.6rem,2.8vw,2.6rem); font-weight: 500; line-height: 1; font-feature-settings: "tnum"; letter-spacing: -0.02em; }
+.weather-condition { font-family: var(--font-display); font-style: italic; font-size: clamp(1rem,1.3vw,1.3rem); color: var(--accent); margin-top: 0.1rem; }
+.weather-meta { font-family: var(--font-clock); font-size: clamp(0.7rem,0.9vw,0.85rem); color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+.weather-meta .rain-chip { display: inline-block; margin-left: 0.5rem; padding: 0.1rem 0.45rem; border-radius: 4px; background: color-mix(in srgb, var(--cool) 25%, transparent); color: var(--cool); }
+
+.date-block { text-align: right; }
+.date-day { font-family: var(--font-display); font-style: italic; font-size: clamp(1.6rem,2.8vw,2.6rem); line-height: 1; color: var(--accent); }
+.date-full { font-family: var(--font-clock); font-size: clamp(0.85rem,1.1vw,1.05rem); color: var(--fg-dim); margin-top: 0.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.date-sub {
+  font-family: var(--font-body); font-size: clamp(0.75rem,0.95vw,0.92rem);
+  color: var(--fg-faint); margin-top: 0.25rem; letter-spacing: 0.03em;
+  display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;
+}
+.date-sub span { white-space: nowrap; }
+
+/* ============================================================
+   CLOCK
+   ============================================================ */
+main { display: grid; place-items: center; z-index: 5; position: relative; min-height: 0; }
+.clock-stage { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; position: relative; }
+.clock-halo {
+  position: absolute; inset: -20% -10%;
+  background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
+  filter: blur(40px); z-index: -1; opacity: 0.6;
+  animation: breath 6s ease-in-out infinite;
+}
+@keyframes breath {
+  0%,100% { opacity: 0.4; transform: scale(0.95); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+.clock-row { display: flex; align-items: flex-start; gap: clamp(0.5rem,1vw,1rem); }
+.ampm { font-family: var(--font-clock); font-size: clamp(1rem,2vw,2rem); font-weight: 500; color: var(--fg-dim); letter-spacing: 0.1em; margin-top: 0.5em; align-self: flex-start; }
+.colon { display: inline-block; animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.35; } }
+.clock-seconds { font-family: var(--font-clock); font-weight: 400; font-size: clamp(1.5rem,3vw,3rem); color: var(--fg-dim); font-feature-settings: "tnum"; letter-spacing: 0.05em; margin-top: -0.5rem; }
+.welcome-ticker {
+  margin-top: clamp(0.5rem,1.5vw,1.2rem);
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1rem,1.4vw,1.4rem); color: var(--fg-dim);
+  text-align: center; min-height: 1.8em;
+  transition: opacity 600ms; letter-spacing: 0.02em;
+}
+
+[data-style="mono"] .clock-digits {
+  font-family: var(--font-clock); font-weight: 500;
+  font-size: clamp(7rem,20vw,24rem); line-height: 0.85;
+  letter-spacing: -0.04em; font-feature-settings: "tnum";
+  color: var(--fg); text-shadow: 0 0 60px var(--accent-glow);
+}
+[data-style="flip"] .clock-digits { display: block; }
+[data-style="flip"] .flip-row { display: flex; gap: clamp(0.5rem,1.2vw,1.5rem); }
+[data-style="flip"] .flip-box {
+  position: relative; background: var(--fg); color: var(--bg);
+  font-family: var(--font-serif-bold); font-weight: 700;
+  font-size: clamp(4rem,12vw,14rem); line-height: 1;
+  padding: clamp(0.4rem,1vw,1rem) clamp(0.8rem,2vw,2rem);
+  border-radius: clamp(0.5rem,1vw,1.2rem); font-feature-settings: "tnum";
+  overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+[data-style="flip"] .flip-box::after {
+  content: ''; position: absolute; left: 0; right: 0; top: 50%;
+  height: 2px; background: color-mix(in srgb, var(--bg) 18%, transparent); z-index: 2;
+}
+[data-style="flip"] .clock-seconds, [data-style="flip"] .colon { display: none; }
+[data-style="flip"] .ampm { color: var(--fg); }
+
+[data-style="lcd"] .clock-digits {
+  font-family: var(--font-mono-display); font-weight: 400;
+  font-size: clamp(6rem,17vw,20rem); line-height: 0.85;
+  letter-spacing: 0.05em; color: var(--accent);
+  text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow);
+}
+[data-style="retro"] .clock-digits {
+  font-family: var(--font-lcd); font-size: clamp(10rem,28vw,32rem);
+  line-height: 0.85; color: var(--accent);
+  text-shadow: 0 0 30px var(--accent-glow);
+}
+[data-style="retro"] .clock-seconds { font-family: var(--font-lcd); font-size: clamp(2.5rem,6vw,6rem); }
+[data-style="elegant"] .clock-digits {
+  font-family: var(--font-display); font-weight: 400; font-style: italic;
+  font-size: clamp(9rem,26vw,30rem); line-height: 0.85;
+  letter-spacing: -0.03em; color: var(--accent);
+}
+[data-style="elegant"] .clock-seconds { font-family: var(--font-display); font-style: italic; }
+[data-style="minimal"] .clock-digits {
+  font-family: var(--font-clock); font-weight: 200;
+  font-size: clamp(7rem,18vw,22rem); line-height: 0.85;
+  letter-spacing: -0.05em; font-feature-settings: "tnum"; color: var(--fg);
+}
+[data-style="minimal"] .clock-seconds { display: none; }
+[data-style="analog"] .clock-digits, [data-style="analog"] .clock-seconds, [data-style="analog"] .ampm { display: none; }
+[data-style="analog"] .analog-svg {
+  width: clamp(18rem,42vh,36rem); height: clamp(18rem,42vh,36rem);
+  display: block; filter: drop-shadow(0 0 30px var(--accent-glow));
+}
+.analog-svg { display: none; }
+
+/* ============================================================
+   FOOTER TABS
+   ============================================================ */
+.tab-bar { display: flex; gap: 0.4rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.tab-btn {
+  font-family: var(--font-clock); font-size: clamp(0.7rem,0.85vw,0.85rem);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 0.55rem 1rem; background: transparent;
+  border: 1px solid transparent; border-radius: 0.5rem;
+  color: var(--fg-faint); cursor: pointer; transition: all 200ms; font-weight: 500;
+}
+.tab-btn:hover { color: var(--fg-dim); background: var(--card); }
+.tab-btn.active {
+  background: var(--card); border-color: var(--card-border); color: var(--accent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent-glow) 50%, transparent);
+}
+.tab-btn-dot { display: inline-block; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; margin-right: 0.4rem; opacity: 0; vertical-align: middle; }
+.tab-btn.active .tab-btn-dot { opacity: 1; box-shadow: 0 0 8px var(--accent); }
+
+.tab-panel {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: clamp(0.75rem,1vw,1rem);
+  padding: clamp(1rem,1.5vw,1.5rem); min-height: 12rem;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 300ms; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   CALENDAR TAB
+   ============================================================ */
+.cal-wrap { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.25rem; }
+@media (max-width: 900px) { .cal-wrap { grid-template-columns: 1fr; } }
+
+.cal-title {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.4rem,1.8vw,1.7rem);
+  color: var(--accent); margin-bottom: 0.7rem;
+}
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; }
+.cal-header {
+  font-family: var(--font-clock); font-size: 0.65rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--fg-faint); text-align: center; padding: 0.3rem 0 0.5rem;
+}
+.cal-day, .cal-empty {
+  min-height: clamp(2.2rem, 4vh, 3rem);
+  position: relative;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 0.4rem;
+  background: var(--card-active); border: 1px solid var(--card-border);
+}
+.cal-empty { background: transparent; border: none; }
+.cal-day-num {
+  font-family: var(--font-clock); font-size: clamp(0.8rem,1vw,1rem);
+  color: var(--fg); font-feature-settings: "tnum";
+}
+.cal-day.today {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.cal-day.today .cal-day-num { color: var(--accent); font-weight: 700; }
+.cal-day.has-holiday::after {
+  content: ''; position: absolute; bottom: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--hot); box-shadow: 0 0 6px var(--hot);
+}
+.cal-day.has-holiday.today::after { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.cal-day.weekend .cal-day-num { color: var(--fg-dim); }
+
+.cal-side { display: flex; flex-direction: column; gap: 0.5rem; }
+.cal-side-label {
+  font-family: var(--font-clock); font-size: 0.7rem;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--fg-faint); margin-bottom: 0.3rem;
+}
+.holiday-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.55rem 0.75rem; background: var(--card-active);
+  border: 1px solid var(--card-border); border-radius: 0.5rem;
+  gap: 0.5rem;
+}
+.holiday-row-name { font-size: 0.9rem; color: var(--fg); }
+.holiday-row-date {
+  font-family: var(--font-clock); font-size: 0.78rem;
+  color: var(--fg-faint); font-feature-settings: "tnum";
+}
+.holiday-row.is-today { background: color-mix(in srgb, var(--accent) 15%, transparent); border-color: var(--accent); }
+
+/* ============================================================
+   PRAYER, WEATHER, HOTEL, CURRENCY tabs
+   ============================================================ */
+.prayer-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 1rem; }
+.prayer-source { font-family: var(--font-clock); font-size: clamp(0.65rem,0.78vw,0.78rem); color: var(--fg-faint); text-transform: uppercase; letter-spacing: 0.12em; }
+.prayer-countdown { font-family: var(--font-display); font-style: italic; font-size: clamp(1rem,1.3vw,1.2rem); color: var(--fg-dim); }
+.prayer-countdown strong { color: var(--accent); font-family: var(--font-clock); font-style: normal; font-feature-settings: "tnum"; font-weight: 600; }
+.prayer-times { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; }
+.prayer-cell { text-align: center; padding: 0.7rem 0.4rem; border-radius: 0.5rem; transition: all 250ms; border: 1px solid transparent; background: var(--card-active); }
+.prayer-cell.next { background: color-mix(in srgb, var(--accent) 20%, transparent); border-color: var(--accent); }
+.prayer-name { font-family: var(--font-body); font-size: clamp(0.7rem,0.85vw,0.85rem); font-weight: 500; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.prayer-cell.next .prayer-name { color: var(--accent); }
+.prayer-time { font-family: var(--font-clock); font-size: clamp(0.9rem,1.2vw,1.15rem); font-weight: 500; margin-top: 0.3rem; font-feature-settings: "tnum"; }
+.buka-banner { margin-top: 0.9rem; padding: 0.85rem 1.2rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent) 8%, transparent));
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border-radius: 0.6rem; font-family: var(--font-display); font-style: italic;
+  font-size: clamp(0.95rem,1.2vw,1.15rem); display: none;
+  justify-content: space-between; align-items: center;
+}
+.buka-banner.active { display: flex; }
+.buka-banner strong { font-family: var(--font-clock); font-style: normal; color: var(--accent); font-feature-settings: "tnum"; }
+
+.weather-section { margin-bottom: 1rem; }
+.weather-section:last-child { margin-bottom: 0; }
+.section-label { font-family: var(--font-clock); font-size: clamp(0.65rem,0.78vw,0.78rem); text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-faint); margin-bottom: 0.5rem; }
+.hourly-scroll { display: grid; grid-template-columns: repeat(12, minmax(60px, 1fr)); gap: 0.4rem; overflow-x: auto; }
+.hour-cell { text-align: center; padding: 0.55rem 0.3rem; background: var(--card-active); border-radius: 0.45rem; min-width: 60px; }
+.hour-time { font-family: var(--font-clock); font-size: 0.72rem; color: var(--fg-dim); letter-spacing: 0.05em; }
+.hour-icon { font-size: 1.2rem; margin: 0.25rem 0; }
+.hour-temp { font-family: var(--font-clock); font-size: 0.88rem; color: var(--fg); font-feature-settings: "tnum"; }
+.hour-rain { font-family: var(--font-clock); font-size: 0.7rem; color: var(--cool); margin-top: 0.2rem; font-feature-settings: "tnum"; }
+.hour-rain.dry { color: var(--fg-faint); }
+.forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr)); gap: 0.4rem; }
+.forecast-day { text-align: center; padding: 0.7rem 0.4rem; background: var(--card-active); border-radius: 0.5rem; }
+.forecast-day-name { font-family: var(--font-clock); font-size: 0.72rem; color: var(--fg-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.forecast-day-icon { font-size: 1.4rem; margin: 0.3rem 0; }
+.forecast-day-temp { font-family: var(--font-clock); font-size: 0.92rem; font-feature-settings: "tnum"; }
+.forecast-day-temp .max { color: var(--fg); font-weight: 600; }
+.forecast-day-temp .min { color: var(--fg-faint); }
+.forecast-day-rain { font-family: var(--font-clock); font-size: 0.7rem; color: var(--cool); margin-top: 0.25rem; }
+.forecast-day-rain.dry { color: var(--fg-faint); }
+
+.hotel-welcome {
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.4rem,2vw,1.9rem); color: var(--accent);
+  text-align: center; padding: 0.5rem 0 1rem;
+  border-bottom: 1px solid var(--card-border); margin-bottom: 1rem;
+  transition: opacity 500ms; min-height: 2.5em;
+}
+.hotel-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.6rem; margin-bottom: 1rem; }
+.hotel-stat { padding: 0.75rem 0.9rem; background: var(--card-active); border-radius: 0.55rem; border: 1px solid var(--card-border); }
+.hotel-stat-label { font-family: var(--font-clock); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-faint); }
+.hotel-stat-value { font-family: var(--font-clock); font-size: 1.05rem; color: var(--fg); margin-top: 0.3rem; font-feature-settings: "tnum"; }
+.hotel-stat-sub { font-size: 0.78rem; color: var(--fg-dim); margin-top: 0.15rem; }
+.aqi-pill { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-family: var(--font-clock); font-size: 0.75rem; margin-left: 0.3rem; }
+.aqi-pill.good { background: rgba(74,222,128,0.2); color: var(--good); }
+.aqi-pill.mod { background: rgba(251,191,36,0.2); color: var(--accent); }
+.aqi-pill.bad { background: rgba(251,113,133,0.2); color: var(--hot); }
+
+.world-clocks {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.5rem;
+}
+.world-clock {
+  padding: 0.6rem 0.75rem; background: var(--card-active);
+  border: 1px solid var(--card-border); border-radius: 0.5rem;
+  text-align: center;
+}
+.world-clock-flag { font-size: 1.1rem; }
+.world-clock-city {
+  font-family: var(--font-clock); font-size: 0.7rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--fg-dim); margin-top: 0.15rem;
+}
+.world-clock-time {
+  font-family: var(--font-clock); font-size: 1.05rem;
+  color: var(--fg); margin-top: 0.2rem;
+  font-feature-settings: "tnum"; font-weight: 500;
+}
+.world-clock-sub { font-size: 0.7rem; color: var(--fg-faint); margin-top: 0.1rem; }
+
+.currency-meta { font-family: var(--font-clock); font-size: 0.72rem; color: var(--fg-faint); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.7rem; }
+.currency-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.5rem; }
+.currency-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.7rem 0.9rem; background: var(--card-active); border-radius: 0.55rem; border: 1px solid var(--card-border); }
+.currency-from { font-family: var(--font-clock); font-weight: 600; color: var(--fg); letter-spacing: 0.05em; }
+.currency-from .flag { margin-right: 0.35rem; }
+.currency-to { font-family: var(--font-clock); font-feature-settings: "tnum"; font-weight: 500; color: var(--accent); }
+
+/* ============================================================
+   DECORATIONS LAYER
+   ============================================================ */
+.decor-layer { position: fixed; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+.snowflake { position: absolute; top: -20px; color: rgba(255,255,255,0.7); user-select: none; animation: fall linear infinite; font-size: 1rem; }
+@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+.lantern { position: absolute; font-size: 3rem; animation: sway 4s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(251,191,36,0.5)); opacity: 0.7; }
+@keyframes sway { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+.diya { position: absolute; font-size: 1.5rem; animation: flicker 2s ease-in-out infinite; filter: drop-shadow(0 0 15px rgba(251,191,36,0.8)); }
+@keyframes flicker { 0%,100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.1); } }
+.crescent { position: absolute; color: var(--accent); opacity: 0.5; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 0 15px rgba(251,191,36,0.6)); }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+.star { position: absolute; background: var(--fg); border-radius: 50%; animation: twinkle 3s ease-in-out infinite; }
+@keyframes twinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+.raindrop { position: absolute; width: 1px; height: 18px; background: linear-gradient(180deg, transparent, rgba(180,210,255,0.7)); animation: rain linear infinite; }
+@keyframes rain { to { transform: translateY(110vh); } }
+.sun-rays { position: absolute; top: -10%; right: -10%; width: 60vmax; height: 60vmax; background: radial-gradient(circle, rgba(253,224,71,0.15) 0%, transparent 50%); animation: bask 12s ease-in-out infinite; }
+@keyframes bask { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+[data-theme="neon"]::after { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,240,255,0.03) 2px, rgba(0,240,255,0.03) 4px); pointer-events: none; z-index: 100; }
+[data-theme="neon"] .clock-digits { text-shadow: 0 0 30px var(--fg), 0 0 60px var(--fg), 0 0 90px var(--accent); }
+
+/* ============================================================
+   TOGGLES
+   ============================================================ */
+.toggle-btn {
+  width: 48px; height: 26px; background: var(--track);
+  border: 1px solid var(--card-border); border-radius: 14px;
+  position: relative; cursor: pointer; padding: 0;
+  transition: background 250ms, border-color 250ms;
+  flex-shrink: 0; display: inline-block; vertical-align: middle;
+}
+.toggle-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 20px; background: var(--fg);
+  border-radius: 50%; transition: transform 250ms cubic-bezier(0.4,0,0.2,1), background 250ms;
+  display: block; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.toggle-btn[data-on="true"] { background: var(--accent); border-color: var(--accent); }
+.toggle-btn[data-on="true"] .toggle-knob { transform: translateX(22px); background: var(--bg); }
+.toggle-btn:hover { border-color: var(--accent); }
+
+/* ============================================================
+   SETTINGS PANEL
+   ============================================================ */
+.settings-toggle {
+  position: fixed; top: 1rem; right: 1rem;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--card-border);
+  color: var(--fg-dim); display: grid; place-items: center;
+  cursor: pointer; z-index: 50; opacity: 0;
+  transition: opacity 300ms, color 200ms;
+  backdrop-filter: blur(10px); font-size: 1.2rem;
+}
+body:hover .settings-toggle { opacity: 0.7; }
+.settings-toggle:hover { opacity: 1 !important; color: var(--accent); }
+
+.settings-panel {
+  position: fixed; top: 0; right: -420px;
+  width: min(400px, 92vw); height: 100vh;
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border-left: 1px solid var(--card-border);
+  padding: 2rem 1.5rem; overflow-y: auto; z-index: 60;
+  transition: right 400ms cubic-bezier(0.4,0,0.2,1);
+}
+.settings-panel.open { right: 0; }
+.settings-panel h2 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--accent); }
+.settings-group { margin-bottom: 1.5rem; }
+.settings-label { font-family: var(--font-clock); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-faint); margin-bottom: 0.6rem; display: block; }
+.option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.option-btn { padding: 0.55rem 0.7rem; background: var(--card); border: 1px solid var(--card-border); border-radius: 0.5rem; color: var(--fg-dim); font-family: var(--font-body); font-size: 0.85rem; cursor: pointer; transition: all 200ms; text-align: left; }
+.option-btn:hover { color: var(--fg); }
+.option-btn.active { background: color-mix(in srgb, var(--accent) 18%, transparent); border-color: var(--accent); color: var(--accent); }
+.option-section { font-family: var(--font-clock); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-faint); margin: 0.6rem 0 0.4rem 0; opacity: 0.7; }
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0; gap: 1rem; }
+.toggle-row > span { color: var(--fg-dim); font-size: 0.88rem; }
+.settings-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--fg-dim); font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed; top: 2rem; left: 50%;
+  transform: translateX(-50%) translateY(-200%);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  border: 1px solid var(--accent); backdrop-filter: blur(30px);
+  padding: 1.5rem 2.5rem; border-radius: 1rem; z-index: 200;
+  transition: transform 500ms cubic-bezier(0.4,0,0.2,1);
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-title { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; color: var(--accent); margin-bottom: 0.25rem; }
+.toast-body { font-family: var(--font-clock); font-size: 1rem; color: var(--fg-dim); letter-spacing: 0.05em; }
+
+@media (max-width: 768px) {
+  header { flex-direction: column; gap: 1rem; }
+  .date-block { text-align: left; }
+  .date-sub { justify-content: flex-start; }
+  .prayer-times { grid-template-columns: repeat(3, 1fr); }
+  .hourly-scroll { grid-template-columns: repeat(6, minmax(60px, 1fr)); }
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="ambient-particles" id="ambient-particles"></div>
+<div class="decor-layer" id="decor"></div>
+
+<header>
+  <div class="weather">
+    <div class="weather-icon" id="weather-icon">☀</div>
+    <div class="weather-info">
+      <div class="weather-temp" id="weather-temp">--°</div>
+      <div class="weather-condition" id="weather-condition">—</div>
+      <div class="weather-meta" id="weather-meta">George Town · Penang</div>
+    </div>
+  </div>
+  <div class="date-block">
+    <div class="date-day" id="date-day">—</div>
+    <div class="date-full" id="date-full">—</div>
+    <div class="date-sub" id="date-sub"></div>
+  </div>
+</header>
+
+<main>
+  <div class="clock-stage">
+    <div class="clock-halo"></div>
+    <div class="clock-row">
+      <div class="clock-digits" id="clock-digits">--<span class="colon">:</span>--</div>
+      <div class="ampm" id="ampm"></div>
+    </div>
+    <div class="clock-seconds" id="clock-seconds">--</div>
+    <svg class="analog-svg" id="analog-svg" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+      <g id="analog-marks"></g>
+      <line id="hand-hour" x1="100" y1="100" x2="100" y2="55" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <line id="hand-min" x1="100" y1="100" x2="100" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <line id="hand-sec" x1="100" y1="100" x2="100" y2="20" stroke="var(--accent)" stroke-width="1" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="3" fill="var(--accent)"/>
+    </svg>
+    <div class="welcome-ticker" id="welcome-ticker">Welcome to Hotel Neo+ Penang</div>
+  </div>
+</main>
+
+<footer>
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="calendar"><span class="tab-btn-dot"></span>Calendar</button>
+    <button class="tab-btn" data-tab="weather"><span class="tab-btn-dot"></span>Weather</button>
+    <button class="tab-btn" data-tab="prayer"><span class="tab-btn-dot"></span>Prayer Times</button>
+    <button class="tab-btn" data-tab="hotel"><span class="tab-btn-dot"></span>Hotel Info</button>
+    <button class="tab-btn" data-tab="currency"><span class="tab-btn-dot"></span>Currency</button>
+  </div>
+  <div class="tab-panel">
+
+    <div class="tab-content active" data-content="calendar">
+      <div class="cal-wrap">
+        <div>
+          <div class="cal-title" id="cal-title">—</div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+        <div class="cal-side">
+          <div class="cal-side-label">This month</div>
+          <div id="cal-this-month"></div>
+          <div class="cal-side-label" style="margin-top: 0.5rem;">Coming up</div>
+          <div id="cal-upcoming"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-content="weather">
+      <div class="weather-section">
+        <div class="section-label">Next 12 hours</div>
+        <div class="hourly-scroll" id="hourly-scroll"></div>
+      </div>
+      <div class="weather-section">
+        <div class="section-label">7-day forecast</div>
+        <div class="forecast-grid" id="forecast-grid"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" data-content="prayer">
+      <div class="prayer-top">
+        <div class="prayer-source">JAKIM · Pulau Pinang</div>
+        <div class="prayer-countdown" id="prayer-countdown"></div>
+      </div>
+      <div class="prayer-times" id="prayer-times">
+        <div class="prayer-cell"><div class="prayer-name">Loading…</div></div>
+      </div>
+      <div class="buka-banner" id="buka-banner">
+        <span>🌙 Berbuka puasa in</span>
+        <strong id="buka-time">—</strong>
+      </div>
+    </div>
+
+    <div class="tab-content" data-content="hotel">
+      <div class="hotel-welcome" id="hotel-welcome">Welcome to Hotel Neo+ Penang</div>
+      <div class="hotel-stats">
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Pool weather</div>
+          <div class="hotel-stat-value" id="hotel-pool">—</div>
+          <div class="hotel-stat-sub" id="hotel-pool-sub">—</div>
+        </div>
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Sunset photo</div>
+          <div class="hotel-stat-value" id="hotel-sunset">—</div>
+          <div class="hotel-stat-sub">Rooftop · 25th floor</div>
+        </div>
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Tomorrow</div>
+          <div class="hotel-stat-value" id="hotel-tomorrow">—</div>
+          <div class="hotel-stat-sub" id="hotel-tomorrow-sub">—</div>
+        </div>
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Air quality</div>
+          <div class="hotel-stat-value" id="hotel-aqi">—</div>
+          <div class="hotel-stat-sub" id="hotel-aqi-sub">PM2.5 & PM10</div>
+        </div>
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Batu Ferringhi beach</div>
+          <div class="hotel-stat-value" id="hotel-beach">—</div>
+          <div class="hotel-stat-sub" id="hotel-beach-sub">Wave & marine</div>
+        </div>
+        <div class="hotel-stat">
+          <div class="hotel-stat-label">Address</div>
+          <div class="hotel-stat-value" style="font-size: 0.92rem;">68 Jalan Gurdwara</div>
+          <div class="hotel-stat-sub">10300 George Town</div>
+        </div>
+      </div>
+      <div class="section-label">World clocks · guest source markets</div>
+      <div class="world-clocks" id="world-clocks"></div>
+    </div>
+
+    <div class="tab-content" data-content="currency">
+      <div class="currency-meta" id="currency-meta">Loading exchange rates…</div>
+      <div class="currency-grid" id="currency-grid"></div>
+    </div>
+
+  </div>
+</footer>
+
+<button class="settings-toggle" id="settings-toggle" title="Settings">⚙</button>
+
+<div class="settings-panel" id="settings-panel">
+  <button class="settings-close" id="settings-close">×</button>
+  <h2>Settings</h2>
+
+  <div class="settings-group">
+    <label class="settings-label">Theme</label>
+    <div class="option-section">Basic</div>
+    <div class="option-grid">
+      <button class="option-btn" data-theme="dark">◐ Dark</button>
+      <button class="option-btn" data-theme="light">◑ Light</button>
+      <button class="option-btn" data-theme="neon">⚡ Neon</button>
+      <button class="option-btn" style="visibility:hidden">—</button>
+    </div>
+    <div class="option-section">Time of day</div>
+    <div class="option-grid">
+      <button class="option-btn" data-theme="dawn">🌄 Dawn</button>
+      <button class="option-btn" data-theme="morning">🌅 Morning</button>
+      <button class="option-btn" data-theme="noon">☀ Noon</button>
+      <button class="option-btn" data-theme="sunset">🌇 Sunset</button>
+      <button class="option-btn" data-theme="night">🌙 Night</button>
+    </div>
+    <div class="option-section">Festival</div>
+    <div class="option-grid">
+      <button class="option-btn" data-theme="christmas">🎄 Christmas</button>
+      <button class="option-btn" data-theme="cny">🏮 CNY</button>
+      <button class="option-btn" data-theme="raya">☪ Hari Raya</button>
+      <button class="option-btn" data-theme="deepavali">🪔 Deepavali</button>
+      <button class="option-btn" data-theme="merdeka">🇲🇾 Merdeka</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Clock style</label>
+    <div class="option-grid">
+      <button class="option-btn" data-style="mono">Mono</button>
+      <button class="option-btn" data-style="flip">Flip</button>
+      <button class="option-btn" data-style="lcd">LCD Mono</button>
+      <button class="option-btn" data-style="retro">Retro Pixel</button>
+      <button class="option-btn" data-style="elegant">Elegant</button>
+      <button class="option-btn" data-style="minimal">Minimal</button>
+      <button class="option-btn" data-style="analog">Analog</button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Auto-hide menu</label>
+    <div class="toggle-row">
+      <span>Hide tabs when idle</span>
+      <button class="toggle-btn" data-setting="autoHide" data-on="true" aria-label="Auto hide"><span class="toggle-knob"></span></button>
+    </div>
+    <div style="color: var(--fg-faint); font-size: 0.78rem; line-height: 1.5; margin-top: 0.4rem;">
+      Tabs fade out after 45 seconds of no mouse movement. Move the mouse to bring them back.
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Auto-theme</label>
+    <div class="toggle-row">
+      <span>Switch by time of day</span>
+      <button class="toggle-btn" data-setting="autoTime" data-on="false" aria-label="Auto time"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Switch near festivals (7-day window)</span>
+      <button class="toggle-btn" data-setting="autoFestival" data-on="true" aria-label="Auto festival"><span class="toggle-knob"></span></button>
+    </div>
+    <div style="color: var(--fg-faint); font-size: 0.78rem; line-height: 1.5; margin-top: 0.4rem;">
+      Festival auto wins over time auto. Picking a theme manually disables both.
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Visual effects</label>
+    <div class="toggle-row">
+      <span>Ambient particles</span>
+      <button class="toggle-btn" data-setting="ambient" data-on="true" aria-label="Ambient"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Rain / sun weather overlays</span>
+      <button class="toggle-btn" data-setting="weatherFx" data-on="true" aria-label="Weather FX"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Clock glow halo</span>
+      <button class="toggle-btn" data-setting="halo" data-on="true" aria-label="Halo"><span class="toggle-knob"></span></button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Prayer alerts</label>
+    <div class="toggle-row">
+      <span>On-screen toast</span>
+      <button class="toggle-btn" data-setting="toast" data-on="true" aria-label="Toast"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Browser notification</span>
+      <button class="toggle-btn" data-setting="notif" data-on="false" aria-label="Notif"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Chime sound</span>
+      <button class="toggle-btn" data-setting="sound" data-on="false" aria-label="Sound"><span class="toggle-knob"></span></button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Format</label>
+    <div class="toggle-row">
+      <span>24-hour clock</span>
+      <button class="toggle-btn" data-setting="hr24" data-on="true" aria-label="24h"><span class="toggle-knob"></span></button>
+    </div>
+    <div class="toggle-row">
+      <span>Rotating welcome message</span>
+      <button class="toggle-btn" data-setting="rotateWelcome" data-on="true" aria-label="Welcome"><span class="toggle-knob"></span></button>
+    </div>
+  </div>
+
+  <div class="settings-group">
+    <label class="settings-label">Tip</label>
+    <div style="color: var(--fg-faint); font-size: 0.82rem; line-height: 1.6;">
+      Press <strong style="color: var(--fg-dim);">F11</strong> for fullscreen.
+      Drop a shortcut in <strong style="color: var(--fg-dim);">shell:startup</strong> for auto-launch.
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-title" id="toast-title">—</div>
+  <div class="toast-body" id="toast-body">—</div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const CONFIG = {
+  lat: 5.4129, lon: 100.3303,
+  beachLat: 5.4753, beachLon: 100.2521,
+  city: 'George Town', country: 'Malaysia',
+  timezone: 'Asia/Kuala_Lumpur',
+  prayerMethod: 17,
+  hotelName: 'Hotel Neo+ Penang',
+  idleSeconds: 45,
+};
+
+/* ============================================================
+   HOLIDAYS — 2026 (verify Islamic & Indian dates)
+   ============================================================ */
+const HOLIDAYS = [
+  { date: '2026-01-01', name: "New Year's Day", theme: null },
+  { date: '2026-02-17', name: 'Chinese New Year', theme: 'cny' },
+  { date: '2026-02-18', name: 'Chinese New Year (Day 2)', theme: 'cny' },
+  { date: '2026-03-02', name: 'Thaipusam (Penang)', theme: 'deepavali' },
+  { date: '2026-03-20', name: 'Hari Raya Aidilfitri', theme: 'raya' },
+  { date: '2026-03-21', name: 'Hari Raya Aidilfitri (Day 2)', theme: 'raya' },
+  { date: '2026-05-01', name: 'Labour Day', theme: null },
+  { date: '2026-05-01', name: 'Wesak Day', theme: null },
+  { date: '2026-05-27', name: 'Hari Raya Aidiladha', theme: 'raya' },
+  { date: '2026-06-06', name: "Agong's Birthday", theme: 'merdeka' },
+  { date: '2026-06-17', name: 'Awal Muharram', theme: 'raya' },
+  { date: '2026-07-11', name: "Penang Governor's Birthday", theme: null },
+  { date: '2026-08-26', name: 'Maulidur Rasul', theme: 'raya' },
+  { date: '2026-08-31', name: 'National Day (Merdeka)', theme: 'merdeka' },
+  { date: '2026-09-16', name: 'Malaysia Day', theme: 'merdeka' },
+  { date: '2026-11-08', name: 'Deepavali', theme: 'deepavali' },
+  { date: '2026-12-11', name: 'George Town Heritage Day', theme: null },
+  { date: '2026-12-25', name: 'Christmas Day', theme: 'christmas' },
+  { date: '2027-01-01', name: "New Year's Day", theme: null },
+];
+
+const WELCOMES = [
+  'Welcome to Hotel Neo+ Penang',
+  'Selamat Datang ke Hotel Neo+ Penang',
+  '欢迎光临 Hotel Neo+ Penang',
+  'ஹோட்டல் நியோ+ பினாங்கிற்கு வரவேற்கிறோம்',
+  'Selamat Pagi · Good Morning · 早安 · காலை வணக்கம்',
+];
+
+const WORLD_CITIES = [
+  { name: 'Penang',    flag: '🇲🇾', tz: 'Asia/Kuala_Lumpur' },
+  { name: 'Singapore', flag: '🇸🇬', tz: 'Asia/Singapore' },
+  { name: 'Beijing',   flag: '🇨🇳', tz: 'Asia/Shanghai' },
+  { name: 'Dubai',     flag: '🇦🇪', tz: 'Asia/Dubai' },
+  { name: 'London',    flag: '🇬🇧', tz: 'Europe/London' },
+  { name: 'Sydney',    flag: '🇦🇺', tz: 'Australia/Sydney' },
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  prayers: null, hijri: null, isRamadan: false,
+  weather: null, hourly: null, forecast: null,
+  sunrise: null, sunset: null, rainNow: null,
+  aqi: null, beach: null, currency: null,
+  lastAlertedPrayer: null,
+  activeTab: 'calendar', welcomeIndex: 0,
+  idleTimer: null,
+  settings: {
+    manualTheme: 'dark', style: 'mono',
+    autoTime: false, autoFestival: true,
+    autoHide: true,
+    ambient: true, weatherFx: true, halo: true,
+    toast: true, notif: false, sound: false,
+    hr24: true, rotateWelcome: true,
+  },
+};
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function loadSettings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('hotel-clock-settings-v3'));
+    if (saved) Object.assign(state.settings, saved);
+  } catch {}
+  applySettings();
+}
+function saveSettings() {
+  localStorage.setItem('hotel-clock-settings-v3', JSON.stringify(state.settings));
+}
+
+function computeActiveTheme() {
+  if (state.settings.autoFestival) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const themed = HOLIDAYS
+      .map(h => ({ ...h, dateObj: new Date(h.date) }))
+      .filter(h => h.theme && h.dateObj >= today)
+      .sort((a,b) => a.dateObj - b.dateObj)[0];
+    if (themed && (themed.dateObj - today) / 86400000 <= 7) return themed.theme;
+  }
+  if (state.settings.autoTime) {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 7) return 'dawn';
+    if (h >= 7 && h < 11) return 'morning';
+    if (h >= 11 && h < 14) return 'noon';
+    if (h >= 14 && h < 17) return 'morning';
+    if (h >= 17 && h < 21) return 'sunset';
+    return 'night';
+  }
+  return state.settings.manualTheme;
+}
+
+function applySettings() {
+  document.documentElement.dataset.theme = computeActiveTheme();
+  document.documentElement.dataset.style = state.settings.style;
+  document.querySelectorAll('.option-btn[data-theme]').forEach(b => {
+    b.classList.toggle('active', b.dataset.theme === state.settings.manualTheme);
+  });
+  document.querySelectorAll('.option-btn[data-style]').forEach(b => {
+    b.classList.toggle('active', b.dataset.style === state.settings.style);
+  });
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.dataset.on = String(!!state.settings[btn.dataset.setting]);
+  });
+  document.querySelector('.clock-halo').style.display = state.settings.halo ? '' : 'none';
+  renderDecorations();
+  renderAmbient();
+  if (!state.settings.autoHide) document.body.classList.remove('idle');
+}
+
+/* ============================================================
+   AUTO-HIDE / IDLE
+   ============================================================ */
+function resetIdle() {
+  document.body.classList.remove('idle');
+  clearTimeout(state.idleTimer);
+  if (!state.settings.autoHide) return;
+  state.idleTimer = setTimeout(() => {
+    document.body.classList.add('idle');
+  }, CONFIG.idleSeconds * 1000);
+}
+
+/* ============================================================
+   AMBIENT PARTICLES
+   ============================================================ */
+function renderAmbient() {
+  const layer = document.getElementById('ambient-particles');
+  layer.innerHTML = '';
+  if (!state.settings.ambient) return;
+  for (let i = 0; i < 40; i++) {
+    const d = document.createElement('div');
+    d.className = 'dust';
+    const size = 1 + Math.random() * 2.5;
+    d.style.width = d.style.height = size + 'px';
+    d.style.left = Math.random() * 100 + 'vw';
+    d.style.animationDuration = (15 + Math.random() * 25) + 's';
+    d.style.animationDelay = (-Math.random() * 30) + 's';
+    layer.appendChild(d);
+  }
+}
+
+/* ============================================================
+   CLOCK
+   ============================================================ */
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours();
+  const m = now.getMinutes();
+  const s = now.getSeconds();
+  let ampm = '';
+  if (!state.settings.hr24) {
+    ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+  }
+  const hh = String(h).padStart(2,'0');
+  const mm = String(m).padStart(2,'0');
+  const ss = String(s).padStart(2,'0');
+
+  if (state.settings.style === 'flip') {
+    document.getElementById('clock-digits').innerHTML =
+      `<div class="flip-row"><div class="flip-box">${hh}</div><div class="flip-box">${mm}</div><div class="flip-box">${ss}</div></div>`;
+  } else if (state.settings.style === 'analog') {
+    renderAnalog(now);
+  } else {
+    document.getElementById('clock-digits').innerHTML = `${hh}<span class="colon">:</span>${mm}`;
+    document.getElementById('clock-seconds').textContent = ss;
+  }
+  document.getElementById('ampm').textContent = ampm;
+
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('date-day').textContent = days[now.getDay()];
+  document.getElementById('date-full').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  renderDateSub();
+  renderWorldClocks();
+  updatePrayerCountdown(now);
+
+  // Refresh calendar at midnight / each minute is overkill; do at first second
+  if (s === 0) renderCalendar();
+  if (state.settings.autoTime && s === 0) applySettings();
+  if (s === 0 && m % 5 === 0) rotateWelcome();
+}
+
+function renderAnalog(now) {
+  const h = now.getHours() % 12;
+  const m = now.getMinutes();
+  const s = now.getSeconds();
+  document.getElementById('hand-hour').setAttribute('transform', `rotate(${(h + m/60) * 30} 100 100)`);
+  document.getElementById('hand-min').setAttribute('transform', `rotate(${(m + s/60) * 6} 100 100)`);
+  document.getElementById('hand-sec').setAttribute('transform', `rotate(${s * 6} 100 100)`);
+  const marks = document.getElementById('analog-marks');
+  if (!marks.children.length) {
+    for (let i = 0; i < 12; i++) {
+      const ang = i * 30 * Math.PI / 180;
+      const x1 = 100 + Math.sin(ang) * 88, y1 = 100 - Math.cos(ang) * 88;
+      const x2 = 100 + Math.sin(ang) * 80, y2 = 100 - Math.cos(ang) * 80;
+      marks.innerHTML += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="currentColor" stroke-width="${i % 3 === 0 ? 2 : 1}" opacity="0.7"/>`;
+    }
+  }
+}
+
+/* ============================================================
+   DATE SUB & MOON
+   ============================================================ */
+function renderDateSub() {
+  const parts = [];
+  if (state.sunrise && state.sunset) {
+    parts.push(`☀ ${state.sunrise}`);
+    parts.push(`☾ ${state.sunset}`);
+  }
+  const mp = getMoonPhase();
+  parts.push(`${mp.emoji} ${mp.name}`);
+  if (state.hijri) parts.push(`${state.hijri.day} ${state.hijri.month.en} ${state.hijri.year}`);
+  document.getElementById('date-sub').innerHTML = parts.map(p => `<span>${p}</span>`).join('');
+}
+
+function getMoonPhase(date = new Date()) {
+  const lp = 2551443;
+  const ref = new Date(Date.UTC(1970, 0, 7, 20, 35, 0));
+  const cycle = (date - ref) / 1000 / lp;
+  const phase = cycle - Math.floor(cycle);
+  if (phase < 0.0625 || phase >= 0.9375) return { name: 'New Moon', emoji: '🌑' };
+  if (phase < 0.1875) return { name: 'Waxing Crescent', emoji: '🌒' };
+  if (phase < 0.3125) return { name: 'First Quarter', emoji: '🌓' };
+  if (phase < 0.4375) return { name: 'Waxing Gibbous', emoji: '🌔' };
+  if (phase < 0.5625) return { name: 'Full Moon', emoji: '🌕' };
+  if (phase < 0.6875) return { name: 'Waning Gibbous', emoji: '🌖' };
+  if (phase < 0.8125) return { name: 'Last Quarter', emoji: '🌗' };
+  return { name: 'Waning Crescent', emoji: '🌘' };
+}
+
+/* ============================================================
+   CALENDAR
+   ============================================================ */
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const today = now.getDate();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  // Build holiday lookup
+  const monthHolidaysByDay = {};
+  HOLIDAYS.forEach(h => {
+    const d = new Date(h.date);
+    if (d.getFullYear() === year && d.getMonth() === month) {
+      const day = d.getDate();
+      if (!monthHolidaysByDay[day]) monthHolidaysByDay[day] = [];
+      monthHolidaysByDay[day].push(h);
+    }
+  });
+
+  document.getElementById('cal-title').textContent = `${monthNames[month]} ${year}`;
+
+  let html = '';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+    html += `<div class="cal-header">${d}</div>`;
+  });
+  for (let i = 0; i < firstDay; i++) html += '<div class="cal-empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today;
+    const dayOfWeek = new Date(year, month, d).getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const holidays = monthHolidaysByDay[d] || [];
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (holidays.length > 0) cls += ' has-holiday';
+    if (isWeekend) cls += ' weekend';
+    const title = holidays.map(h => h.name).join(', ') || '';
+    html += `<div class="${cls}" title="${title}"><div class="cal-day-num">${d}</div></div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = html;
+
+  // Side: this month holidays
+  const thisMonth = HOLIDAYS
+    .map(h => ({ ...h, dateObj: new Date(h.date) }))
+    .filter(h => h.dateObj.getFullYear() === year && h.dateObj.getMonth() === month);
+  document.getElementById('cal-this-month').innerHTML = thisMonth.length === 0
+    ? `<div style="color: var(--fg-faint); font-size: 0.85rem; padding: 0.5rem 0;">No public holidays this month</div>`
+    : thisMonth.map(h => {
+        const isTodayHol = h.dateObj.getDate() === today;
+        return `<div class="holiday-row ${isTodayHol ? 'is-today' : ''}">
+          <div class="holiday-row-name">${h.name}</div>
+          <div class="holiday-row-date">${h.dateObj.toLocaleDateString('en-MY', { day:'numeric', month:'short' })}</div>
+        </div>`;
+      }).join('');
+
+  // Side: upcoming (next 3 not in current month)
+  const todayDate = new Date(year, month, today);
+  const upcoming = HOLIDAYS
+    .map(h => ({ ...h, dateObj: new Date(h.date) }))
+    .filter(h => h.dateObj > todayDate && !(h.dateObj.getFullYear() === year && h.dateObj.getMonth() === month))
+    .slice(0, 4);
+  document.getElementById('cal-upcoming').innerHTML = upcoming.map(h => {
+    const days = Math.round((h.dateObj - todayDate) / 86400000);
+    return `<div class="holiday-row">
+      <div class="holiday-row-name">${h.name}</div>
+      <div class="holiday-row-date">${h.dateObj.toLocaleDateString('en-MY', { day:'numeric', month:'short' })} · ${days}d</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   WORLD CLOCKS
+   ============================================================ */
+function renderWorldClocks() {
+  const now = new Date();
+  document.getElementById('world-clocks').innerHTML = WORLD_CITIES.map(c => {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: c.tz, hour: '2-digit', minute: '2-digit', hour12: false
+    });
+    const dfmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: c.tz, weekday: 'short', day: 'numeric', month: 'short'
+    });
+    return `<div class="world-clock">
+      <div class="world-clock-flag">${c.flag}</div>
+      <div class="world-clock-city">${c.name}</div>
+      <div class="world-clock-time">${fmt.format(now)}</div>
+      <div class="world-clock-sub">${dfmt.format(now)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   WELCOME TICKER
+   ============================================================ */
+function rotateWelcome() {
+  if (!state.settings.rotateWelcome) return;
+  state.welcomeIndex = (state.welcomeIndex + 1) % WELCOMES.length;
+  const t = document.getElementById('welcome-ticker');
+  const h = document.getElementById('hotel-welcome');
+  [t, h].forEach(el => {
+    if (!el) return;
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.textContent = WELCOMES[state.welcomeIndex];
+      el.style.opacity = '';
+    }, 500);
+  });
+}
+
+/* ============================================================
+   WEATHER
+   ============================================================ */
+const WEATHER_ICONS = { 0:'☀',1:'🌤',2:'⛅',3:'☁',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌦',61:'🌧',63:'🌧',65:'🌧',71:'🌨',73:'🌨',75:'🌨',80:'🌦',81:'🌧',82:'⛈',95:'⛈',96:'⛈',99:'⛈' };
+const WEATHER_LABELS = { 0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm' };
+function isRainCode(c) { return (c>=51&&c<=67)||(c>=80&&c<=99); }
+function isClearCode(c) { return c===0||c===1; }
+
+async function fetchWeather() {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}` +
+      `&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,wind_speed_10m,precipitation` +
+      `&hourly=temperature_2m,weather_code,precipitation_probability` +
+      `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max` +
+      `&forecast_days=7&timezone=${CONFIG.timezone}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    state.weather = data.current; state.hourly = data.hourly; state.forecast = data.daily;
+    if (data.daily.sunrise && data.daily.sunrise[0]) {
+      state.sunrise = data.daily.sunrise[0].slice(11, 16);
+      state.sunset = data.daily.sunset[0].slice(11, 16);
+    }
+    const nowIso = new Date().toISOString().slice(0, 13);
+    const idx = data.hourly.time.findIndex(t => t.startsWith(nowIso));
+    state.rainNow = idx >= 0 ? data.hourly.precipitation_probability[idx] : null;
+    renderWeather(); renderDateSub(); renderDecorations();
+  } catch (e) { console.warn('Weather fetch failed', e); }
+}
+
+function renderWeather() {
+  if (!state.weather) return;
+  const t = Math.round(state.weather.temperature_2m);
+  const code = state.weather.weather_code;
+  const hum = state.weather.relative_humidity_2m;
+  const feels = Math.round(state.weather.apparent_temperature);
+  const wind = Math.round(state.weather.wind_speed_10m);
+
+  document.getElementById('weather-icon').textContent = WEATHER_ICONS[code] || '☀';
+  document.getElementById('weather-temp').textContent = `${t}°C`;
+  document.getElementById('weather-condition').textContent = WEATHER_LABELS[code] || '—';
+  const rainChip = state.rainNow !== null && state.rainNow >= 20
+    ? `<span class="rain-chip">☔ ${state.rainNow}%</span>` : '';
+  document.getElementById('weather-meta').innerHTML = `George Town · ${hum}% humidity · feels ${feels}° ${rainChip}`;
+
+  if (state.hourly) {
+    const nowIso = new Date().toISOString().slice(0, 13);
+    const startIdx = state.hourly.time.findIndex(t => t.startsWith(nowIso));
+    if (startIdx >= 0) {
+      const cells = [];
+      for (let i = 0; i < 12; i++) {
+        const idx = startIdx + i;
+        if (!state.hourly.time[idx]) break;
+        const time = state.hourly.time[idx].slice(11, 16);
+        const tt = Math.round(state.hourly.temperature_2m[idx]);
+        const cc = state.hourly.weather_code[idx];
+        const rr = state.hourly.precipitation_probability[idx] || 0;
+        cells.push(`<div class="hour-cell">
+          <div class="hour-time">${time}</div>
+          <div class="hour-icon">${WEATHER_ICONS[cc] || '☀'}</div>
+          <div class="hour-temp">${tt}°</div>
+          <div class="hour-rain ${rr < 20 ? 'dry' : ''}">${rr}%</div>
+        </div>`);
+      }
+      document.getElementById('hourly-scroll').innerHTML = cells.join('');
+    }
+  }
+
+  if (state.forecast) {
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const today = new Date();
+    document.getElementById('forecast-grid').innerHTML = state.forecast.weather_code.map((c, i) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      const dn = i === 0 ? 'Today' : dayNames[d.getDay()];
+      const rr = state.forecast.precipitation_probability_max[i] || 0;
+      return `<div class="forecast-day">
+        <div class="forecast-day-name">${dn}</div>
+        <div class="forecast-day-icon">${WEATHER_ICONS[c] || '☀'}</div>
+        <div class="forecast-day-temp"><span class="max">${Math.round(state.forecast.temperature_2m_max[i])}°</span> <span class="min">${Math.round(state.forecast.temperature_2m_min[i])}°</span></div>
+        <div class="forecast-day-rain ${rr < 20 ? 'dry' : ''}">☔ ${rr}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  const poolOk = !isRainCode(code) && t >= 24 && (state.rainNow === null || state.rainNow < 40);
+  document.getElementById('hotel-pool').textContent = poolOk ? '👍 Open & ideal' : '⚠ Check conditions';
+  document.getElementById('hotel-pool-sub').textContent = `${t}°C, ${WEATHER_LABELS[code]}`;
+  document.getElementById('hotel-sunset').textContent = state.sunset || '—';
+  if (state.forecast && state.forecast.temperature_2m_max[1] !== undefined) {
+    document.getElementById('hotel-tomorrow').textContent =
+      `${Math.round(state.forecast.temperature_2m_max[1])}° / ${Math.round(state.forecast.temperature_2m_min[1])}°`;
+    document.getElementById('hotel-tomorrow-sub').textContent =
+      `${WEATHER_LABELS[state.forecast.weather_code[1]] || '—'} · rain ${state.forecast.precipitation_probability_max[1] || 0}%`;
+  }
+}
+
+/* ============================================================
+   AIR QUALITY
+   ============================================================ */
+async function fetchAQI() {
+  try {
+    const url = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}&current=us_aqi,pm10,pm2_5&timezone=${CONFIG.timezone}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    state.aqi = data.current;
+    renderAQI();
+  } catch (e) { console.warn('AQI fetch failed', e); }
+}
+function renderAQI() {
+  if (!state.aqi) return;
+  const aqi = Math.round(state.aqi.us_aqi);
+  let label, cls;
+  if (aqi <= 50) { label = 'Good'; cls = 'good'; }
+  else if (aqi <= 100) { label = 'Moderate'; cls = 'mod'; }
+  else if (aqi <= 150) { label = 'Unhealthy (sensitive)'; cls = 'bad'; }
+  else if (aqi <= 200) { label = 'Unhealthy'; cls = 'bad'; }
+  else { label = 'Hazardous'; cls = 'bad'; }
+  document.getElementById('hotel-aqi').innerHTML = `${aqi} <span class="aqi-pill ${cls}">${label}</span>`;
+  document.getElementById('hotel-aqi-sub').textContent = `PM2.5: ${Math.round(state.aqi.pm2_5)} · PM10: ${Math.round(state.aqi.pm10)}`;
+}
+
+/* ============================================================
+   BEACH
+   ============================================================ */
+async function fetchBeach() {
+  try {
+    const url = `https://marine-api.open-meteo.com/v1/marine?latitude=${CONFIG.beachLat}&longitude=${CONFIG.beachLon}&current=wave_height,wave_direction,wave_period&timezone=${CONFIG.timezone}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    state.beach = data.current;
+    renderBeach();
+  } catch (e) {
+    document.getElementById('hotel-beach').textContent = '—';
+    document.getElementById('hotel-beach-sub').textContent = 'Marine data unavailable';
+  }
+}
+function renderBeach() {
+  if (!state.beach) return;
+  const h = state.beach.wave_height;
+  const p = state.beach.wave_period;
+  let cond;
+  if (h < 0.5) cond = '🏖 Calm';
+  else if (h < 1.0) cond = '🌊 Light waves';
+  else if (h < 1.5) cond = '🌊 Moderate';
+  else cond = '⚠ Rough';
+  document.getElementById('hotel-beach').textContent = cond;
+  document.getElementById('hotel-beach-sub').textContent = `Wave ${h?.toFixed(1) || '?'}m · Period ${p?.toFixed(0) || '?'}s`;
+}
+
+/* ============================================================
+   CURRENCY — fawazahmed0/currency-api via JSDelivr
+   (CORS-safe, no key needed, works from file://)
+   ============================================================ */
+const CURRENCY_LIST = [
+  { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
+  { code: 'SGD', name: 'Singapore', flag: '🇸🇬' },
+  { code: 'EUR', name: 'Euro', flag: '🇪🇺' },
+  { code: 'GBP', name: 'British Pound', flag: '🇬🇧' },
+  { code: 'AUD', name: 'Australian', flag: '🇦🇺' },
+  { code: 'JPY', name: 'Japanese Yen', flag: '🇯🇵' },
+  { code: 'CNY', name: 'Chinese Yuan', flag: '🇨🇳' },
+  { code: 'HKD', name: 'Hong Kong', flag: '🇭🇰' },
+  { code: 'THB', name: 'Thai Baht', flag: '🇹🇭' },
+  { code: 'IDR', name: 'Indonesian Rupiah', flag: '🇮🇩' },
+];
+
+async function fetchCurrency() {
+  const urls = [
+    'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/myr.json',
+    'https://latest.currency-api.pages.dev/v1/currencies/myr.json',
+  ];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) continue;
+      const data = await res.json();
+      const rates = data.myr || {};
+      state.currency = { date: data.date, rates };
+      renderCurrency();
+      return;
+    } catch (e) { console.warn('Currency endpoint failed', url, e); }
+  }
+  document.getElementById('currency-meta').textContent = 'Currency rates unavailable (network blocked?)';
+}
+
+function renderCurrency() {
+  if (!state.currency) return;
+  document.getElementById('currency-meta').textContent =
+    `Live exchange rates · ${state.currency.date} · per unit foreign → MYR`;
+  document.getElementById('currency-grid').innerHTML = CURRENCY_LIST.map(c => {
+    const rateMyrToForeign = state.currency.rates[c.code.toLowerCase()];
+    if (!rateMyrToForeign) return '';
+    const foreignToMyr = 1 / rateMyrToForeign;
+    const showPer100 = ['JPY', 'IDR', 'KRW'].includes(c.code);
+    const displayValue = showPer100 ? (foreignToMyr * 100).toFixed(2) : foreignToMyr.toFixed(3);
+    const label = showPer100 ? `100 ${c.code}` : `1 ${c.code}`;
+    return `<div class="currency-row">
+      <div class="currency-from"><span class="flag">${c.flag}</span>${label}</div>
+      <div class="currency-to">RM ${displayValue}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   PRAYER TIMES (JAKIM method 17)
+   ============================================================ */
+const PRAYER_ORDER = ['Fajr','Sunrise','Dhuhr','Asr','Maghrib','Isha'];
+const PRAYER_LABELS = { Fajr:'Subuh', Sunrise:'Syuruk', Dhuhr:'Zohor', Asr:'Asar', Maghrib:'Maghrib', Isha:'Isyak' };
+
+async function fetchPrayers() {
+  try {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2,'0');
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const yyyy = today.getFullYear();
+    const url = `https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}&method=${CONFIG.prayerMethod}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    state.prayers = data.data.timings;
+    state.hijri = data.data.date.hijri;
+    state.isRamadan = parseInt(state.hijri.month.number) === 9;
+    renderPrayers();
+    renderDateSub();
+  } catch (e) { console.warn('Prayer fetch failed', e); }
+}
+
+function renderPrayers() {
+  if (!state.prayers) return;
+  document.getElementById('prayer-times').innerHTML = PRAYER_ORDER.map(name => {
+    const time = state.prayers[name].slice(0, 5);
+    return `<div class="prayer-cell" data-prayer="${name}">
+      <div class="prayer-name">${PRAYER_LABELS[name]}</div>
+      <div class="prayer-time">${time}</div>
+    </div>`;
+  }).join('');
+}
+
+function updatePrayerCountdown(now) {
+  if (!state.prayers) return;
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  let nextPrayer = null, nextMin = Infinity;
+  for (const name of PRAYER_ORDER) {
+    const [h, m] = state.prayers[name].split(':').map(Number);
+    const pMin = h * 60 + m;
+    if (pMin > nowMin && pMin < nextMin) { nextMin = pMin; nextPrayer = name; }
+  }
+  if (!nextPrayer) {
+    nextPrayer = 'Fajr';
+    const [h, m] = state.prayers.Fajr.split(':').map(Number);
+    nextMin = h * 60 + m + 24 * 60;
+  }
+  document.querySelectorAll('.prayer-cell').forEach(cell => {
+    cell.classList.toggle('next', cell.dataset.prayer === nextPrayer);
+  });
+  const diffMin = nextMin - nowMin;
+  const hours = Math.floor(diffMin / 60);
+  const mins = diffMin % 60;
+  const secs = 60 - now.getSeconds();
+  const timeStr = hours > 0 ? `${hours}h ${mins}m` : mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  document.getElementById('prayer-countdown').innerHTML = `Next: <strong>${PRAYER_LABELS[nextPrayer]}</strong> in <strong>${timeStr}</strong>`;
+
+  const banner = document.getElementById('buka-banner');
+  if (state.isRamadan) {
+    const [mh, mm] = state.prayers.Maghrib.split(':').map(Number);
+    const maghribMin = mh * 60 + mm;
+    if (maghribMin > nowMin) {
+      const diff = maghribMin - nowMin;
+      const bh = Math.floor(diff / 60);
+      const bm = diff % 60;
+      document.getElementById('buka-time').textContent =
+        bh > 0 ? `${bh}h ${bm}m` : `${bm}m ${60 - now.getSeconds()}s`;
+      banner.classList.add('active');
+    } else banner.classList.remove('active');
+  } else banner.classList.remove('active');
+
+  for (const name of PRAYER_ORDER) {
+    const [h, m] = state.prayers[name].split(':').map(Number);
+    const pMin = h * 60 + m;
+    if (pMin === nowMin && now.getSeconds() < 5 && state.lastAlertedPrayer !== name + now.toDateString()) {
+      state.lastAlertedPrayer = name + now.toDateString();
+      triggerPrayerAlert(name, state.prayers[name].slice(0, 5));
+    }
+  }
+}
+
+function triggerPrayerAlert(name, time) {
+  const label = PRAYER_LABELS[name];
+  if (state.settings.toast) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-title').textContent = `Waktu ${label}`;
+    document.getElementById('toast-body').textContent = `${time} · George Town`;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 8000);
+  }
+  if (state.settings.notif && 'Notification' in window && Notification.permission === 'granted') {
+    new Notification(`Waktu ${label}`, { body: `${time} · George Town` });
+  }
+  if (state.settings.sound) playChime();
+}
+
+function playChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const play = (freq, start, dur) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = freq; o.type = 'sine';
+      g.gain.setValueAtTime(0, ctx.currentTime + start);
+      g.gain.linearRampToValueAtTime(0.3, ctx.currentTime + start + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime + start);
+      o.stop(ctx.currentTime + start + dur);
+    };
+    play(880, 0, 1.5); play(660, 0.4, 1.5); play(440, 0.8, 2);
+  } catch (e) {}
+}
+
+/* ============================================================
+   DECORATIONS
+   ============================================================ */
+function renderDecorations() {
+  const layer = document.getElementById('decor');
+  layer.innerHTML = '';
+  const theme = document.documentElement.dataset.theme;
+
+  if (theme === 'christmas') {
+    const flakes = ['❄','❅','❆','✦'];
+    for (let i = 0; i < 40; i++) {
+      const f = document.createElement('div'); f.className = 'snowflake';
+      f.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+      f.style.left = Math.random() * 100 + 'vw';
+      f.style.animationDuration = (8 + Math.random() * 12) + 's';
+      f.style.animationDelay = (-Math.random() * 20) + 's';
+      f.style.fontSize = (0.7 + Math.random() * 1.3) + 'rem';
+      f.style.opacity = 0.4 + Math.random() * 0.5;
+      layer.appendChild(f);
+    }
+  } else if (theme === 'cny') {
+    for (let i = 0; i < 6; i++) {
+      const l = document.createElement('div'); l.className = 'lantern'; l.textContent = '🏮';
+      l.style.left = (10 + i * 15 + Math.random() * 5) + 'vw';
+      l.style.top = (Math.random() * 20) + 'vh';
+      l.style.animationDelay = (-Math.random() * 4) + 's';
+      l.style.animationDuration = (3 + Math.random() * 3) + 's';
+      layer.appendChild(l);
+    }
+  } else if (theme === 'deepavali') {
+    const symbols = ['🪔','✨','🌟'];
+    for (let i = 0; i < 25; i++) {
+      const d = document.createElement('div'); d.className = 'diya';
+      d.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      d.style.left = Math.random() * 100 + 'vw';
+      d.style.top = Math.random() * 100 + 'vh';
+      d.style.animationDelay = (-Math.random() * 2) + 's';
+      d.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      d.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      layer.appendChild(d);
+    }
+  } else if (theme === 'raya') {
+    const symbols = ['☪','✦','✧','⭒'];
+    for (let i = 0; i < 18; i++) {
+      const c = document.createElement('div'); c.className = 'crescent';
+      c.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = Math.random() * 100 + 'vh';
+      c.style.animationDelay = (-Math.random() * 6) + 's';
+      c.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+      layer.appendChild(c);
+    }
+  } else if (theme === 'night' || theme === 'dawn') {
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('div'); s.className = 'star';
+      const size = 1 + Math.random() * 2;
+      s.style.width = s.style.height = size + 'px';
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.top = Math.random() * 70 + 'vh';
+      s.style.animationDelay = (-Math.random() * 3) + 's';
+      layer.appendChild(s);
+    }
+  }
+
+  if (state.settings.weatherFx && state.weather) {
+    const code = state.weather.weather_code;
+    if (isRainCode(code)) {
+      for (let i = 0; i < 80; i++) {
+        const r = document.createElement('div'); r.className = 'raindrop';
+        r.style.left = Math.random() * 100 + 'vw';
+        r.style.top = -Math.random() * 100 + 'vh';
+        r.style.animationDuration = (0.4 + Math.random() * 0.6) + 's';
+        r.style.animationDelay = (-Math.random() * 1) + 's';
+        r.style.opacity = 0.4 + Math.random() * 0.4;
+        layer.appendChild(r);
+      }
+    } else if (isClearCode(code) && (theme === 'noon' || theme === 'morning' || theme === 'light')) {
+      const s = document.createElement('div'); s.className = 'sun-rays';
+      layer.appendChild(s);
+    }
+  }
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function switchTab(name) {
+  state.activeTab = name;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.dataset.content === name));
+}
+
+/* ============================================================
+   EVENT HANDLERS
+   ============================================================ */
+document.getElementById('settings-toggle').addEventListener('click', () => {
+  document.getElementById('settings-panel').classList.toggle('open');
+});
+document.getElementById('settings-close').addEventListener('click', () => {
+  document.getElementById('settings-panel').classList.remove('open');
+});
+
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.addEventListener('click', () => switchTab(b.dataset.tab));
+});
+
+document.querySelectorAll('.option-btn[data-theme]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.settings.manualTheme = btn.dataset.theme;
+    state.settings.autoTime = false;
+    state.settings.autoFestival = false;
+    applySettings(); saveSettings();
+  });
+});
+
+document.querySelectorAll('.option-btn[data-style]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.settings.style = btn.dataset.style;
+    applySettings(); saveSettings(); updateClock();
+  });
+});
+
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault(); e.stopPropagation();
+    const key = btn.dataset.setting;
+    if (!key) return;
+    state.settings[key] = !state.settings[key];
+    btn.dataset.on = String(state.settings[key]);
+    if (key === 'notif' && state.settings.notif && 'Notification' in window) {
+      const p = await Notification.requestPermission();
+      if (p !== 'granted') { state.settings.notif = false; btn.dataset.on = 'false'; }
+    }
+    if (key === 'autoHide') resetIdle();
+    applySettings(); saveSettings();
+  });
+});
+
+// Idle detection — also keeps menu visible while settings panel is open
+['mousemove','keydown','touchstart','click'].forEach(evt => {
+  document.addEventListener(evt, resetIdle, { passive: true });
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+loadSettings();
+updateClock();
+renderCalendar();
+renderWorldClocks();
+setInterval(updateClock, 1000);
+
+fetchWeather(); setInterval(fetchWeather, 15 * 60 * 1000);
+fetchAQI(); setInterval(fetchAQI, 30 * 60 * 1000);
+fetchBeach(); setInterval(fetchBeach, 60 * 60 * 1000);
+fetchCurrency(); setInterval(fetchCurrency, 6 * 60 * 60 * 1000);
+
+fetchPrayers();
+function scheduleMidnight() {
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 1);
+  setTimeout(() => { fetchPrayers(); renderCalendar(); scheduleMidnight(); }, tomorrow - now);
+}
+scheduleMidnight();
+
+setInterval(rotateWelcome, 8000);
+
+resetIdle();
+</script>
+</body>
+</html>
